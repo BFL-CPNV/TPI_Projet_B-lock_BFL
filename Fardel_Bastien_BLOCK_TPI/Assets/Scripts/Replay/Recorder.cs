@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Recorder : MonoBehaviour
 {
-    public Queue<Rewind_Data> recording_queue { get; private set; }
+    /*public Queue<Rewind_Data> recording_queue { get; private set; }
 
     private void Awake()
     {
@@ -15,5 +15,5 @@ public class Recorder : MonoBehaviour
     {
         recording_queue.Enqueue(data);
         //Debug.Log("Recorded data: " + data.position);
-    }
+    }*/
 }
