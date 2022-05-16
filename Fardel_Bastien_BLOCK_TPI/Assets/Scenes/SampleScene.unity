@@ -924,16 +924,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   movement_speed: 200
-  is_grounded: 0
+  jump_force: 7.5
+  check_radius: 0.1
   what_is_ground:
     serializedVersion: 2
     m_Bits: 64
-  jump_force: 7.5
-  check_radius: 0.1
-  feet_position: {fileID: 1842499870}
-  player_animator: {fileID: 1707354773}
-  player_rigidbody2d: {fileID: 0}
-  player_sprite_renderer: {fileID: 1707354768}
 --- !u!50 &1707354772
 Rigidbody2D:
   serializedVersion: 4

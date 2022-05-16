@@ -5,9 +5,9 @@ using UnityEngine;
 public class Player_controller : MonoBehaviour
 {
     private bool is_grounded;
-    private bool rewind;
     private bool is_rewinding = false;
     private float jump_counter = 0;
+    private float horizontal_movement;
     [SerializeField] private float movement_speed;
     [SerializeField] private float jump_force;
     [SerializeField] private float check_radius;
@@ -19,6 +19,7 @@ public class Player_controller : MonoBehaviour
     private SpriteRenderer player_sprite_renderer;
     private Animator player_animator;
     private Transform feet_position;
+    [SerializeField]private List<RewindData> recorded_data = new List<RewindData>();
 
     // Awake est appelé quand l'instance de script est chargée
     private void Awake()
@@ -35,19 +36,21 @@ public class Player_controller : MonoBehaviour
     {
         if (!is_rewinding)
         {
-            float horizontal_movement = Input.GetAxis("Horizontal") * movement_speed * Time.deltaTime; // récupère l'input du joueur pour l'utiliser pour le déplacement
+            horizontal_movement = Input.GetAxis("Horizontal") * movement_speed * Time.deltaTime; // récupère l'input du joueur pour l'utiliser pour le déplacement
 
+            CheckIfGrounded();
             PlayerMovement(horizontal_movement);
+            RecordData(transform.position.x, transform.position.y, player_sprite_renderer.flipX, is_grounded, horizontal_movement);
         }
     }
 
     // Update est appelé une fois par mise à jour de trame, la fonction de saut est inséré dans Update afin d'être le plus réactif possible, après un test il a été découvert que Update est plus réactif pour le saut que FixedUpdate contrairement au mouvement
     private void Update()
     {
+        CheckIfGrounded(); // vérifie si le joueur est au sol
+
         if (!is_rewinding)
         {
-            CheckIfGrounded(); // vérifie si le joueur est au sol
-
             if (is_grounded && Input.GetKey(KeyCode.W))
             {
                 // jump_counter permet d'éviter au joueur d'effectuer plus d'un saut sans devoir retoucher le sol
@@ -89,6 +92,11 @@ public class Player_controller : MonoBehaviour
         if (is_rewinding)
         {
             player_animator.SetBool("rewind", is_rewinding);
+            RewindData();
+        }
+        else
+        {
+            player_animator.SetBool("rewind", is_rewinding);
         }
     }
 
@@ -118,5 +126,23 @@ public class Player_controller : MonoBehaviour
         {
           player_sprite_renderer.flipX = true;
         }
+    }
+
+    private void RecordData(float x_position ,float y_position ,bool is_flipped ,bool is_grounded ,float current_speed)
+    {
+        RewindData data_to_record = new RewindData();
+        Vector2 player_current_position = new Vector2(x_position, y_position);
+
+        data_to_record.player_position = player_current_position;
+        data_to_record.is_flipped = is_flipped;
+        data_to_record.is_grounded = is_grounded;
+        data_to_record.player_speed = current_speed;
+
+        recorded_data.Add(data_to_record);
+    }
+
+    private void RewindData()
+    {
+        //placeholder for code
     }
 }
