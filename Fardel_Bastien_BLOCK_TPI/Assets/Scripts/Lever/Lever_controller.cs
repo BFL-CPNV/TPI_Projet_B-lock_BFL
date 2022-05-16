@@ -6,6 +6,7 @@ public class Lever_controller : MonoBehaviour
 {
     private bool is_player_in_range;
     private bool is_lever_off = true; // État de base du levier
+    private bool is_rewinding;
 
     [SerializeField] private Animator lever_animator;
     [SerializeField] GameObject connected_obstacle;
@@ -13,9 +14,14 @@ public class Lever_controller : MonoBehaviour
     // Update est appelé une fois par mise à jour de frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.E) && is_player_in_range)
+        is_rewinding = Input.GetKey(KeyCode.R);
+
+        if (!is_rewinding) 
         {
-            InteractWithLever();
+            if (Input.GetKeyDown(KeyCode.E) && is_player_in_range)
+            {
+                InteractWithLever();
+            }
         }
     }
 
