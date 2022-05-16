@@ -1,9 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 
 public class Player_controller : MonoBehaviour
 {
+    private const int LINE_TO_READ = 0;
+
     private bool is_grounded;
     private bool is_rewinding = false;
     private float jump_counter = 0;
@@ -19,7 +22,7 @@ public class Player_controller : MonoBehaviour
     private SpriteRenderer player_sprite_renderer;
     private Animator player_animator;
     private Transform feet_position;
-    [SerializeField]private List<RewindData> recorded_data = new List<RewindData>();
+    private List<RewindData> recorded_data = new List<RewindData>();
 
     // Awake est appelé quand l'instance de script est chargée
     private void Awake()
@@ -29,12 +32,23 @@ public class Player_controller : MonoBehaviour
         player_sprite_renderer = GetComponent<SpriteRenderer>();
         player_animator = GetComponent<Animator>();
         feet_position = transform.GetChild(0).GetComponent<Transform>();
+
+        // s'assurer que la liste est vide avant de l'utiliser
+        recorded_data.Clear();
     }
 
     // FixedUpdate est appelé pour chaque trame avec un taux fixe, si le MonoBehaviour est activé
     private void FixedUpdate()
     {
-        if (!is_rewinding)
+        // placeholder for comments
+        is_rewinding = Input.GetKey(KeyCode.R);
+        player_animator.SetBool("rewind", is_rewinding);
+
+        if (is_rewinding)
+        {
+            RewindData();
+        }
+        else
         {
             horizontal_movement = Input.GetAxis("Horizontal") * movement_speed * Time.deltaTime; // récupère l'input du joueur pour l'utiliser pour le déplacement
 
@@ -47,10 +61,10 @@ public class Player_controller : MonoBehaviour
     // Update est appelé une fois par mise à jour de trame, la fonction de saut est inséré dans Update afin d'être le plus réactif possible, après un test il a été découvert que Update est plus réactif pour le saut que FixedUpdate contrairement au mouvement
     private void Update()
     {
-        CheckIfGrounded(); // vérifie si le joueur est au sol
-
         if (!is_rewinding)
         {
+            CheckIfGrounded(); // vérifie si le joueur est au sol
+
             if (is_grounded && Input.GetKey(KeyCode.W))
             {
                 // jump_counter permet d'éviter au joueur d'effectuer plus d'un saut sans devoir retoucher le sol
@@ -80,23 +94,6 @@ public class Player_controller : MonoBehaviour
                     Debug.Log("Is grounded no");
                 }*/
             }
-        }
-    }
-
-    // LateUpdate est appelé pour chaque trame, une fois que toutes les updates sont effectuées
-    private void LateUpdate()
-    {
-        // placeholder for comments
-        is_rewinding = Input.GetKey(KeyCode.R);
-
-        if (is_rewinding)
-        {
-            player_animator.SetBool("rewind", is_rewinding);
-            RewindData();
-        }
-        else
-        {
-            player_animator.SetBool("rewind", is_rewinding);
         }
     }
 
@@ -143,6 +140,17 @@ public class Player_controller : MonoBehaviour
 
     private void RewindData()
     {
-        //placeholder for code
+        if (recorded_data.Count > 0)
+        {
+            int index = recorded_data.Count - 1;
+
+            transform.position = recorded_data[index].player_position;
+            player_sprite_renderer.flipX = recorded_data[index].is_flipped;
+            is_grounded = recorded_data[index].is_grounded;
+            player_animator.SetBool("is_jumping", is_grounded);
+            player_animator.SetFloat("speed", recorded_data[index].player_speed);
+
+            recorded_data.RemoveAt(index);
+        }
     }
 }
