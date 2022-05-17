@@ -8,6 +8,5 @@ public class RewindData
 {
     public Vector2 player_position;
     public bool is_flipped;
-    public bool is_grounded;
     public float player_speed;
 }
