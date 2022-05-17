@@ -2,7 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Lever_controller : MonoBehaviour
+/**********************************************
+ * Projet : B'lock
+ * Nom du fichier : Lever_controller.cs
+ * 
+ * Date des derniers changements : 17.05.2022
+ * Version : 1.0
+ * Auteur : Fardel Bastien
+ **********************************************/
+
+public class Lever_controller : MonoBehaviour // MonoBehaviour signifie que le script sera rattaché à un objet
 {
     private bool is_player_in_range;
     private bool is_lever_off = true; // État de base du levier
@@ -16,7 +25,7 @@ public class Lever_controller : MonoBehaviour
     {
         is_rewinding = Input.GetKey(KeyCode.R);
 
-        if (!is_rewinding) 
+        if (!is_rewinding) // S'assure que le joueur ne puisse pas interagir avec le levier s'il remonte le temps
         {
             if (Input.GetKeyDown(KeyCode.E) && is_player_in_range)
             {
@@ -25,53 +34,28 @@ public class Lever_controller : MonoBehaviour
         }
     }
 
+    // InteractWithLever est une fonction qui permet au joueur d'interagir avec les leviers du jeu, modifiant ainsi l'environnement de celui-ci pour résoudre des puzzles
     private void InteractWithLever()
-    {
-        //Debug.Log("Entering IntercatWithLever, lever_off :" + is_lever_off); Utilisé pour vérifier l'interaction avec le levier et la valeur de lever_off afin de comprendre d'où venait une erreur d'interaction delayée
-
+    {  
         is_lever_off = !is_lever_off;
         lever_animator.SetBool("is_lever_off", is_lever_off);
         lever_animator.SetTrigger("interact");
         connected_obstacle.SetActive(is_lever_off);
-
-        // Cette section de code est l'ancienne version de gestion des leviers, celle-ci a été remplacé par la nouvelle version qui a été développée avec l'aide du chef de projet
-        /*if (!is_lever_off)
-        {
-            lever_animator.SetBool("is_lever_on", false);
-            lever_animator.SetBool("is_lever_off", true);
-            lever_animator.SetTrigger("interact");
-
-            //Debug.Log("lever was turned on");
-            is_lever_off = true;
-            is_lever_on = false;
-
-            connected_obstacle.SetActive(true);
-        }
-        else if (is_lever_off)
-        {
-            lever_animator.SetBool("is_lever_on", true);
-            lever_animator.SetBool("is_lever_off", false);
-            lever_animator.SetTrigger("interact");
-
-            Debug.Log("lever was turned off");
-            is_lever_off = false;
-            is_lever_on = true;
-
-            connected_obstacle.SetActive(false);
-        } //*/
     }
 
-    private void OnTriggerEnter2D(Collider2D collision) // Lors de l'entrée du joueur dans la zone du levier, celui-ci autorise l'interaction avec celui-ci
+    // OnTriggerEnter2D est une fonction spécifique qui est appelée lorsque le collider du levier détecte un objet entrant celui-ci
+    private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.CompareTag("Player"))
+        if (collision.CompareTag("Player")) // Vérifie si le joueur a été détecté entrant dans la collision
         {
             is_player_in_range = true;
         }
     }
 
+    // OnTriggerExit2D est une fonction spécifique qui est appelée lorsque le collider du levier détecte un objet quittant celui-ci
     private void OnTriggerExit2D(Collider2D collision) // Comme pour l'entrée, la sortie interdit l'interaction au levier.
     {
-        if (collision.CompareTag("Player"))
+        if (collision.CompareTag("Player")) // Vérifie si le joueur a été détecté quittant la collision
         {
             is_player_in_range = false;
         }

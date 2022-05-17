@@ -923,12 +923,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62b75c251b334524c8085a2fdbd0091e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  movement_speed: 200
-  jump_force: 7.5
-  check_radius: 0.1
-  what_is_ground:
-    serializedVersion: 2
-    m_Bits: 64
 --- !u!50 &1707354772
 Rigidbody2D:
   serializedVersion: 4
