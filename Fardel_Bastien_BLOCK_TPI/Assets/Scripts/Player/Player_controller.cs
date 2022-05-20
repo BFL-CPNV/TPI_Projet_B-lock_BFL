@@ -2,8 +2,8 @@
  * Projet : B'lock
  * Nom du fichier : Player_controller.cs
  * 
- * Date des derniers changements : 17.05.2022
- * Version : 1.0
+ * Date des derniers changements : 20.05.2022
+ * Version : 1.1
  * Auteur : Fardel Bastien
  **********************************************/
 
@@ -35,7 +35,7 @@ public class Player_controller : MonoBehaviour
     private SpriteRenderer player_sprite_renderer;
     private Animator player_animator;
     private Transform feet_position;
-    private List<RewindData> recorded_data;
+    public List<RewindData> recorded_data;
 
     /// <summary>
     /// Awake est appelé quand l'instance de script est chargée
@@ -189,7 +189,7 @@ public class Player_controller : MonoBehaviour
 
             recorded_data.RemoveAt(index); // Retire la donnée qui a été lue
 
-            player_rigidbody2d.velocity = Vector2.up;
+            player_rigidbody2d.velocity = new Vector2(0,0) ;
         }
     }
 }

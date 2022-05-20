@@ -57,8 +57,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Scripts\Player\Player_controller.cs" />
-    <Compile Include="Assets\Scripts\Classes\RewindData.cs" />
+    <Compile Include="Assets\Scripts\Classes\Rewind\RewindData.cs" />
     <Compile Include="Assets\Scripts\Lever\Lever_controller.cs" />
+    <Compile Include="Assets\Scripts\Zone\Zone_controller.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">

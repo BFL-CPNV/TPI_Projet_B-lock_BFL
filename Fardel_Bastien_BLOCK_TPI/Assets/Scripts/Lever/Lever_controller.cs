@@ -2,8 +2,8 @@
  * Projet : B'lock
  * Nom du fichier : Lever_controller.cs
  * 
- * Date des derniers changements : 17.05.2022
- * Version : 1.0
+ * Date des derniers changements : 20.05.2022
+ * Version : 1.1
  * Auteur : Fardel Bastien
  **********************************************/
 
@@ -13,12 +13,23 @@ using UnityEngine;
 
 public class Lever_controller : MonoBehaviour
 {
+    // Variables
     private bool is_player_in_range;
     private bool is_lever_off = true; // État de base du levier
     private bool is_rewinding;
 
-    [SerializeField] private Animator lever_animator;
-    [SerializeField] GameObject[] connected_obstacles;
+    // Objets du levier
+    private Animator lever_animator;
+    [SerializeField] private GameObject[] connected_obstacles;
+
+    /// <summary>
+    /// Awake est appelé quand l'instance de script est chargée
+    /// </summary>
+    private void Awake()
+    {
+        // récupération du composant attaché au levier
+        lever_animator = GetComponent<Animator>();
+    }
 
     /// <summary>
     /// Update est appelé une fois par mise à jour de frame
