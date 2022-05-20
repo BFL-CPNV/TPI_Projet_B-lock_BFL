@@ -1,8 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using System;
-
 /**********************************************
  * Projet : B'lock
  * Nom du fichier : RewindData.cs
@@ -12,7 +7,14 @@ using System;
  * Auteur : Fardel Bastien
  **********************************************/
 
-// RewindData est une classe utilisée pour instancier une liste en précisant les éléments qu'elle contient
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using System;
+
+/// <summary>
+/// RewindData est une classe utilisée pour instancier une liste en précisant les éléments qu'elle contient
+/// </summary>
 public class RewindData
 {
     public Vector2 player_position;

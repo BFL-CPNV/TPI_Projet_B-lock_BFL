@@ -12,7 +12,7 @@ TagManager:
   - Water
   - UI
   - Environnement
-  - 
+  - Darkness
   - 
   - 
   - 
@@ -52,4 +52,7 @@ TagManager:
     locked: 0
   - name: Player
     uniqueID: 440023231
+    locked: 0
+  - name: Darkness
+    uniqueID: 2119966869
     locked: 0

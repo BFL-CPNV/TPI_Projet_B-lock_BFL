@@ -1,9 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using System.Linq;
-using UnityEngine;
-
 /**********************************************
  * Projet : B'lock
  * Nom du fichier : Player_controller.cs
@@ -13,7 +7,13 @@ using UnityEngine;
  * Auteur : Fardel Bastien
  **********************************************/
 
-public class Player_controller : MonoBehaviour // MonoBehaviour signifie que le script sera rattaché à un objet
+using System.Collections;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using System.Linq;
+using UnityEngine;
+
+public class Player_controller : MonoBehaviour
 {
     // Constantes
     private const int REWINDINDEX = 1;
@@ -35,9 +35,11 @@ public class Player_controller : MonoBehaviour // MonoBehaviour signifie que le 
     private SpriteRenderer player_sprite_renderer;
     private Animator player_animator;
     private Transform feet_position;
-    private List<RewindData> recorded_data = new List<RewindData>();
+    private List<RewindData> recorded_data;
 
-    // Awake est appelé quand l'instance de script est chargée
+    /// <summary>
+    /// Awake est appelé quand l'instance de script est chargée
+    /// </summary>
     private void Awake()
     {
         // récupération des composants attachés au joueur
@@ -46,12 +48,15 @@ public class Player_controller : MonoBehaviour // MonoBehaviour signifie que le 
         player_animator = GetComponent<Animator>();
         feet_position = transform.GetChild(0).GetComponent<Transform>();
         what_is_ground = LayerMask.GetMask("Environnement");
+        recorded_data = new List<RewindData>();
 
         // S'assure que la liste est vide avant de l'utiliser pour la première fois
         recorded_data.Clear();
     }
 
-    // FixedUpdate est appelé pour chaque trame avec un taux fixe, si le MonoBehaviour est activé
+    /// <summary>
+    /// FixedUpdate est appelé pour chaque trame avec un taux fixe, si le MonoBehaviour est activé
+    /// </summary>
     private void FixedUpdate()
     {
         int index = recorded_data.Count - REWINDINDEX; // Obtention de l'index de la dernière entrée
@@ -82,7 +87,9 @@ public class Player_controller : MonoBehaviour // MonoBehaviour signifie que le 
         }
     }
 
-    // Update est appelé une fois par mise à jour de trame, la fonction de saut est inséré dans Update afin d'être le plus réactif possible, après un test il a été découvert que Update est plus réactif pour le saut que FixedUpdate contrairement au mouvement
+    /// <summary>
+    /// Update est appelé une fois par mise à jour de trame
+    /// </summary>
     private void Update()
     {
         CheckIfGrounded();
@@ -104,7 +111,10 @@ public class Player_controller : MonoBehaviour // MonoBehaviour signifie que le 
         }
     }
 
-    // MovePlayer est une fonction qui applique une vitesse au joueur afin que celui-ci puisse se déplacer de gauche à droite
+    /// <summary>
+    /// MovePlayer est une fonction qui applique une vitesse au joueur afin que celui-ci puisse se déplacer de gauche à droite
+    /// </summary>
+    /// <param name="horizontal_movement"></param>
     private void MovePlayer(float horizontal_movement)
     {
         Vector3 targetVelocity = new Vector2(horizontal_movement, player_rigidbody2d.velocity.y); // Création de la vitesse cible du joueur
@@ -114,13 +124,18 @@ public class Player_controller : MonoBehaviour // MonoBehaviour signifie que le 
         player_rigidbody2d.velocity = Vector3.SmoothDamp(player_rigidbody2d.velocity, targetVelocity, ref velocity, .05f); //déplacement du joueur en appliquant une vitesse à son rigidbody2D par rapport à la vitesse actuelle et à celle ciblée
     }
 
-    // CheckIfGrounded est une fonction qui vérifie si le joueur est actuellement au sol en se basant sur la position de ses pieds et la distance de ceux-ci par rapport au sol
+    /// <summary>
+    /// CheckIfGrounded est une fonction qui vérifie si le joueur est actuellement au sol en se basant sur la position de ses pieds et la distance de ceux-ci par rapport au sol
+    /// </summary>
     private void CheckIfGrounded()
     {
         is_grounded = Physics2D.OverlapCircle(feet_position.position, check_radius, what_is_ground); // crée un cercle autours des pieds du joueur avec un radius constant afin de vérifier si le sol est touché
     }
 
-    // FlipSprite est une fonction qui retourne le sprite du joueur pour qu'il soit face à la direction dans laquelle celui-ci se dirige
+    /// <summary>
+    /// FlipSprite est une fonction qui retourne le sprite du joueur pour qu'il soit face à la direction dans laquelle celui-ci se dirige
+    /// </summary>
+    /// <param name="horizontal_movement"></param>
     private void FlipSprite(float horizontal_movement)
     {
         if (horizontal_movement > 0.01f)
@@ -133,7 +148,13 @@ public class Player_controller : MonoBehaviour // MonoBehaviour signifie que le 
         }
     }
 
-    // RecordData est une fonction qui enregistre les données nécessaires au retour dans le temps, elle reçoit en paramètres la position du joueur (x,y), l'état de retournement du sprite et la vitesse actuelle du joueur
+    /// <summary>
+    /// RecordData est une fonction qui enregistre les données nécessaires au retour dans le temps, elle reçoit en paramètres la position du joueur (x,y), l'état de retournement du sprite et la vitesse actuelle du joueur
+    /// </summary>
+    /// <param name="x_position"></param>
+    /// <param name="y_position"></param>
+    /// <param name="is_flipped"></param>
+    /// <param name="current_speed"></param>
     private void RecordData(float x_position, float y_position, bool is_flipped, float current_speed)
     {
         Vector2 player_current_position = new Vector2(x_position, y_position); // Crée un nouveau vecteur pour stocker les positions x,y plus facilement
@@ -152,7 +173,9 @@ public class Player_controller : MonoBehaviour // MonoBehaviour signifie que le 
         }
     }
 
-    // RewindData est une fonction qui permet au joueur de remonter le temps en lisant ses actions enregistrée une à la fois.
+    /// <summary>
+    /// RewindData est une fonction qui permet au joueur de remonter le temps en lisant ses actions enregistrée une à la fois. 
+    /// </summary>
     private async void RewindData()
     {
         if (recorded_data.Count > 0) // S'assure que la liste n'est pas vide
@@ -165,6 +188,8 @@ public class Player_controller : MonoBehaviour // MonoBehaviour signifie que le 
             player_animator.SetFloat("speed", Mathf.Abs(recorded_data[index].player_speed));           
 
             recorded_data.RemoveAt(index); // Retire la donnée qui a été lue
+
+            player_rigidbody2d.velocity = Vector2.up;
         }
     }
 }
