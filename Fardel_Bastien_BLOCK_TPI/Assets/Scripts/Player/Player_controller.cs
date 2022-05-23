@@ -189,7 +189,7 @@ public class Player_controller : MonoBehaviour
 
             recorded_data.RemoveAt(index); // Retire la donnée qui a été lue
 
-            player_rigidbody2d.velocity = new Vector2(0,0) ;
+            player_rigidbody2d.velocity = Vector2.zero ;
         }
     }
 }
