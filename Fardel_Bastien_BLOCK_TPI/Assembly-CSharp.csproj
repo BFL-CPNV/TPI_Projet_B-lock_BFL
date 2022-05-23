@@ -57,10 +57,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Scripts\Player\Player_controller.cs" />
+    <Compile Include="Assets\Scripts\Menus\Pause\Pause_menu_controller.cs" />
     <Compile Include="Assets\Scripts\Classes\Rewind\RewindData.cs" />
     <Compile Include="Assets\Scripts\Lever\Lever_controller.cs" />
-    <Compile Include="Assets\Scripts\Zone\Zone_controller.cs" />
     <Compile Include="Assets\Scripts\Menus\Main\Main_menu_controller.cs" />
+    <Compile Include="Assets\Scripts\Zone\Zone_controller.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />

@@ -2,8 +2,8 @@
  * Projet : B'lock
  * Nom du fichier : Lever_controller.cs
  * 
- * Date des derniers changements : 20.05.2022
- * Version : 1.0
+ * Date des derniers changements : 23.05.2022
+ * Version : 1.1
  * Auteur : Fardel Bastien
  **********************************************/
 
@@ -38,7 +38,6 @@ public class Zone_controller : MonoBehaviour
     {
         if (collision.CompareTag("Player") && !player_passed_through) // Le joueur doit être l'objet détecté dans la collision et il doit aussi y entrer pour la première fois
         {
-            Debug.Log("Entered the trigger");
             exit.SetActive(!exit.activeSelf); // Referme la sortie derrière le joueur
             player_script.recorded_data.Clear(); // Nettoie les données enregistrées pour empêcher le joueur de revenir à la zone précédente
             player_passed_through = !player_passed_through;
