@@ -17,9 +17,9 @@ public class Player_controller : MonoBehaviour
 {
     // Constantes
     private const int REWINDINDEX = 1;
-    private const float movement_speed = 200;
-    private const float jump_force = 7.5f;
-    private const float check_radius = 0.1f;
+    private const float MOVEMENTSPEED = 200;
+    private const float JUMPFORCE = 7.5f;
+    private const float CHECKRADIUS = 0.1f;
 
     // Variables
     private bool is_grounded;
@@ -79,7 +79,7 @@ public class Player_controller : MonoBehaviour
         }
         else
         {
-            horizontal_movement = Input.GetAxis("Horizontal") * movement_speed * Time.deltaTime; // Récupère l'input du joueur pour l'utiliser pour le déplacement
+            horizontal_movement = Input.GetAxis("Horizontal") * MOVEMENTSPEED * Time.deltaTime; // Récupère l'input du joueur pour l'utiliser pour le déplacement
 
             MovePlayer(horizontal_movement);
             CheckIfGrounded();
@@ -98,7 +98,7 @@ public class Player_controller : MonoBehaviour
         {
             if (is_grounded && Input.GetKey(KeyCode.W))
             {             
-                player_rigidbody2d.velocity = Vector2.up * jump_force; // Applique une force de saut au joueur
+                player_rigidbody2d.velocity = Vector2.up * JUMPFORCE; // Applique une force de saut au joueur
             }
         }
 
@@ -129,7 +129,7 @@ public class Player_controller : MonoBehaviour
     /// </summary>
     private void CheckIfGrounded()
     {
-        is_grounded = Physics2D.OverlapCircle(feet_position.position, check_radius, what_is_ground); // crée un cercle autours des pieds du joueur avec un radius constant afin de vérifier si le sol est touché
+        is_grounded = Physics2D.OverlapCircle(feet_position.position, CHECKRADIUS, what_is_ground); // crée un cercle autours des pieds du joueur avec un radius constant afin de vérifier si le sol est touché
     }
 
     /// <summary>
@@ -174,7 +174,7 @@ public class Player_controller : MonoBehaviour
     }
 
     /// <summary>
-    /// RewindData est une fonction qui permet au joueur de remonter le temps en lisant ses actions enregistrée une à la fois. 
+    /// RewindData est une fonction qui permet au joueur de remonter le temps en lisant ses actions enregistrée une à la fois
     /// </summary>
     private async void RewindData()
     {
