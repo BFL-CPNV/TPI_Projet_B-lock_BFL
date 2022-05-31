@@ -7,10 +7,7 @@
  * Auteur : Fardel Bastien
  **********************************************/
 
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using System;
 
 /// <summary>
 /// RewindData est une classe utilisée pour instancier une liste en précisant les éléments qu'elle contient
